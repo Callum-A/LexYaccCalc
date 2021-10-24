@@ -3,6 +3,7 @@
 
 typedef struct Node Node;
 typedef struct BinaryOp BinaryOp;
+typedef struct UnaryOp UnaryOp;
 typedef struct Number Number;
 typedef struct Boolean Boolean;
 typedef struct NodeList NodeList;
@@ -10,7 +11,7 @@ typedef struct Program Program;
 typedef struct Print Print;
 typedef enum NodeType NodeType;
 
-enum NodeType { BINARY_OP, BOOLEAN, NUM, PROGRAM, PRINT_STMT };
+enum NodeType { BINARY_OP, UNARY_OP,BOOLEAN, NUM, PROGRAM, PRINT_STMT };
 
 struct NodeList {
     int count;
@@ -32,6 +33,11 @@ struct BinaryOp {
     char op;
 };
 
+struct UnaryOp {
+    Node *right;
+    char op;
+};
+
 struct Number {
     double value;
 };
@@ -45,6 +51,7 @@ struct Node {
     NodeType nodeType;
     union {
         BinaryOp *binaryOp;
+        UnaryOp *unaryOp;
         Number *number;
         Boolean *boolean;
         Program *program;
@@ -63,5 +70,6 @@ Node *makeFalse(char *token);
 Node *makeProgram(char *token);
 void addNodeToProgram(Node *program, Node *nodeToAdd);
 Node *makePrint(Node *exp, char *token);
+Node *makeUnary(Node *right, char *token, char op);
 
 #endif

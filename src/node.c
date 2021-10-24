@@ -66,3 +66,11 @@ Node *makePrint(Node *exp, char *token) {
     node->as.print->exp = exp;
     return node;
 }
+
+Node *makeUnary(Node *right, char *token, char op) {
+    Node *node = makeNode(UNARY_OP, token);
+    node->as.unaryOp = (UnaryOp *)malloc(sizeof(UnaryOp));
+    node->as.unaryOp->op = op;
+    node->as.unaryOp->right = right;
+    return node;
+}

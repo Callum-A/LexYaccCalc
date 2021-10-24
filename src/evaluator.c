@@ -19,6 +19,16 @@ double ev(Node *root) {
             return 0;
         }
         break;
+    case UNARY_OP:
+        switch (root->as.unaryOp->op) {
+        case '-':
+            return -ev(root->as.unaryOp->right);
+        default:
+            // Unreachable
+            printf("Unrecognised UNARY OP\n");
+            return 0;
+        }
+        break;
     case NUM:
         return root->as.number->value;
     case PROGRAM: {

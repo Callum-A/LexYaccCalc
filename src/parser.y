@@ -42,6 +42,7 @@ term: factor { $$ = $1; }
 
 factor: NUMBER { $$ = makeNumber(yylval.number, "NUM"); }
     | LEFT_PAREN exp RIGHT_PAREN { $$ = $2; }
+    | MINUS exp { $$ = makeUnary($2, "-", '-'); }
     | PRINT LEFT_PAREN exp RIGHT_PAREN { $$ = makePrint($3, "print"); }
     ;
 %%

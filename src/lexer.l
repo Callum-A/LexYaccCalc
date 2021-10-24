@@ -1,6 +1,8 @@
 %{
 #include "y.tab.h"
 #include <stdlib.h>
+#include "node.h"
+extern int yyerror(Node *root, char *s);
 %}
 %%
 [0-9]+ {
@@ -15,6 +17,7 @@
 "(" return(LEFT_PAREN);
 ")" return(RIGHT_PAREN);
 ";" return(END);
+. { yyerror(NULL, "unexpected character."); }
 %%
 int yywrap(void) {
     return 1;

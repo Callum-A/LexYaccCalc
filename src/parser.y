@@ -6,7 +6,8 @@
 #include "evaluator.h"
 
 extern int yylex();
-extern int yyerror(Node *root, char *s);
+extern int yyerror(char *s);
+extern Node *root;
 %}
 %union {
     struct Node *node;
@@ -19,14 +20,14 @@ extern int yyerror(Node *root, char *s);
 %token END
 %left PLUS MINUS
 %left TIMES DIVIDE
-%type<node> line exp term factor
+%type<node> line exp term factor lines
 %type<number> NUMBER
-%parse-param { Node *root }
 %%
-lines: 
-    | lines line;
+lines: { $$ = makeProgram("PROG"); root = $$; }
+    | lines line { addNodeToProgram($1, $2); printf("Adding node\n"); }
+    ;
 
-line: exp END { $$ = $1; printf("Result: %f\n", ev($1)); }
+line: exp END { $$ = $1; }
     ;
 
 exp: term { $$ = $1; }
@@ -43,7 +44,7 @@ factor: NUMBER { $$ = makeNumber(yylval.number, "NUM"); }
     ;
 %%
 
-int yyerror(Node *root, char *s) {
+int yyerror(char *s) {
     fprintf(stderr, "%s\n", s);
     return 0;
 }

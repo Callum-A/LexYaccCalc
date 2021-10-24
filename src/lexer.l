@@ -17,6 +17,7 @@ extern int yyerror(Node *root, char *s);
 "(" return(LEFT_PAREN);
 ")" return(RIGHT_PAREN);
 ";" return(END);
+"print" return PRINT;
 . { yyerror(NULL, "unexpected character."); }
 %%
 int yywrap(void) {

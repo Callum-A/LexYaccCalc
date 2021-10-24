@@ -12,12 +12,10 @@ extern int yyparse();
 Node *root;
 
 int main(void) {
-    char string[] = "2+2;3+3;4*2 + 2;";
+    char string[] = "print(2+2 * 4);print(10 / 2);";
     YY_BUFFER_STATE buffer = yy_scan_string(string);
     yyparse();
-    printf("tok: %s\n", root->token);
     yy_delete_buffer(buffer);
-    printf("MAIN DONE!");
     ev(root);
     return 0;
 }

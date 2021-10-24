@@ -7,14 +7,19 @@ typedef struct Number Number;
 typedef struct Boolean Boolean;
 typedef struct NodeList NodeList;
 typedef struct Program Program;
+typedef struct Print Print;
 typedef enum NodeType NodeType;
 
-enum NodeType { BINARY_OP, BOOLEAN, NUM, PROGRAM };
+enum NodeType { BINARY_OP, BOOLEAN, NUM, PROGRAM, PRINT_STMT };
 
 struct NodeList {
     int count;
     int capacity;
     Node *nodes;
+};
+
+struct Print {
+    Node *exp;
 };
 
 struct Program {
@@ -43,6 +48,7 @@ struct Node {
         Number *number;
         Boolean *boolean;
         Program *program;
+        Print *print;
     } as;
 };
 
@@ -56,5 +62,6 @@ Node *makeTrue(char *token);
 Node *makeFalse(char *token);
 Node *makeProgram(char *token);
 void addNodeToProgram(Node *program, Node *nodeToAdd);
+Node *makePrint(Node *exp, char *token);
 
 #endif

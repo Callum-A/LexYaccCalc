@@ -59,3 +59,10 @@ void addNodeToProgram(Node *program, Node *nodeToAdd) {
         *nodeToAdd;
     program->as.program->stmts->count++;
 }
+
+Node *makePrint(Node *exp, char *token) {
+    Node *node = makeNode(PRINT_STMT, token);
+    node->as.print = (Print *)malloc(sizeof(Print));
+    node->as.print->exp = exp;
+    return node;
+}

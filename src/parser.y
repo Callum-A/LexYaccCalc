@@ -18,13 +18,14 @@ extern Node *root;
 %token PLUS MINUS TIMES DIVIDE
 %token LEFT_PAREN RIGHT_PAREN
 %token END
+%token PRINT
 %left PLUS MINUS
 %left TIMES DIVIDE
 %type<node> line exp term factor lines
 %type<number> NUMBER
 %%
 lines: { $$ = makeProgram("PROG"); root = $$; }
-    | lines line { addNodeToProgram($1, $2); printf("Adding node\n"); }
+    | lines line { addNodeToProgram($1, $2); }
     ;
 
 line: exp END { $$ = $1; }
@@ -41,6 +42,7 @@ term: factor { $$ = $1; }
 
 factor: NUMBER { $$ = makeNumber(yylval.number, "NUM"); }
     | LEFT_PAREN exp RIGHT_PAREN { $$ = $2; }
+    | PRINT LEFT_PAREN exp RIGHT_PAREN { $$ = makePrint($3, "print"); }
     ;
 %%
 
